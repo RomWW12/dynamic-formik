@@ -19,7 +19,7 @@ export interface TouchedType {
   [field: string]: boolean | undefined;
 }
 
-const getFieldSchemaFromType = ({ type, validationRule }: FormField): MixedSchema => {
+const getFieldSchemaFromType = ({ type, validationRule, label }: FormField): MixedSchema => {
   switch (type) {
     case FIELD_TYPE.NUMBER:
       if (validationRule && validationRule === VALIDATION_RULES.PHONE_NUMBER) {
@@ -32,7 +32,7 @@ const getFieldSchemaFromType = ({ type, validationRule }: FormField): MixedSchem
       }
       return string();
     case FIELD_TYPE.SELECT:
-      return number();
+      return number().typeError(`Please specify a ${label}`);
   }
 };
 
@@ -42,7 +42,7 @@ export const validationSchema = ({ fields }: FormProps) =>
       let fieldSchema = getFieldSchemaFromType(field);
 
       if (field.required) {
-        fieldSchema = fieldSchema.required();
+        fieldSchema = fieldSchema.required(`${field.label} is a required field.`);
       } else {
         fieldSchema = fieldSchema.nullable();
       }
