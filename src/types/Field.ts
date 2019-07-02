@@ -6,7 +6,7 @@ export enum FIELD_TYPE {
 
 export enum VALIDATION_RULES {
   EMAIL = 'email',
-  MAX_LENGTH_10 = 'maxLength10',
+  PHONE_NUMBER = 'phoneNumber',
 }
 
 export interface Choice {
@@ -14,7 +14,7 @@ export interface Choice {
   value: string;
 }
 
-export default interface Field {
+export default interface FormField {
   name: string;
   label: string;
   required: boolean;

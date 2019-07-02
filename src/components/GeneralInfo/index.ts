@@ -1,1 +1,1 @@
-export { default } from './GeneralInfo';
+export { default } from './GeneralInfo.wrap';

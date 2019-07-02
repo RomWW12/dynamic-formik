@@ -1,12 +1,14 @@
 import { number, object, string, MixedSchema } from 'yup';
-import Field, { FIELD_TYPE, VALIDATION_RULES } from '../../types/Field';
+import FormField, { FIELD_TYPE, VALIDATION_RULES } from '../../types/Field';
 
 export interface FormProps {
-  fields: Field[];
+  fields: FormField[];
 }
 
+export type FormValueType = string | number | Date | null;
+
 export interface FormValues {
-  [field: string]: string | number | Date | null;
+  [field: string]: FormValueType;
 }
 
 export interface ErrorType {
@@ -17,11 +19,11 @@ export interface TouchedType {
   [field: string]: boolean | undefined;
 }
 
-const getFieldSchemaFromType = ({ type, validationRule }: Field): MixedSchema => {
+const getFieldSchemaFromType = ({ type, validationRule }: FormField): MixedSchema => {
   switch (type) {
     case FIELD_TYPE.NUMBER:
-      if (validationRule && validationRule === VALIDATION_RULES.MAX_LENGTH_10) {
-        return number().max(10);
+      if (validationRule && validationRule === VALIDATION_RULES.PHONE_NUMBER) {
+        return string().matches(/^0[0-9]{9}$/);
       }
       return number();
     case FIELD_TYPE.TEXT:
@@ -30,7 +32,7 @@ const getFieldSchemaFromType = ({ type, validationRule }: Field): MixedSchema =>
       }
       return string();
     case FIELD_TYPE.SELECT:
-      return object();
+      return number();
   }
 };
 
@@ -56,8 +58,10 @@ export const mapPropsToValues = ({ fields }: FormProps) =>
       case FIELD_TYPE.NUMBER:
       case FIELD_TYPE.TEXT:
         values[field.name] = '';
+        break;
       case FIELD_TYPE.SELECT:
         values[field.name] = null;
+        break;
     }
     return values;
   }, {});

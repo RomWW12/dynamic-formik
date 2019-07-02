@@ -1,0 +1,14 @@
+.General-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.General-info__field {
+  width: 300px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid;
+  margin: 8px;
+  font-size: 16px;
+}

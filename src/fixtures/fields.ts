@@ -28,9 +28,9 @@ export const fields: Field[] = [
   },
   {
     name: 'phoneNumber',
-    label: 'phoneNumber',
-    type: FIELD_TYPE.NUMBER,
-    validationRule: VALIDATION_RULES.MAX_LENGTH_10,
+    label: 'Phone Number',
+    type: FIELD_TYPE.TEXT,
+    validationRule: VALIDATION_RULES.PHONE_NUMBER,
     required: false,
   },
   {
