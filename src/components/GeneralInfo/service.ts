@@ -1,11 +1,11 @@
 import { number, object, string, MixedSchema } from 'yup';
 import FormField, { FIELD_TYPE, VALIDATION_RULES } from '../../types/Field';
+import ProvidedInfo, { FormValueType } from '../../types/ProvidedInfo';
 
 export interface FormProps {
   fields: FormField[];
+  user: ProvidedInfo[];
 }
-
-export type FormValueType = string | number | Date | null;
 
 export interface FormValues {
   [field: string]: FormValueType;
@@ -52,19 +52,24 @@ export const validationSchema = ({ fields }: FormProps) =>
     }, {}),
   );
 
-export const mapPropsToValues = ({ fields }: FormProps) =>
+export const mapPropsToValues = ({ fields, user }: FormProps) =>
   fields.reduce((values: { [key: string]: string | null }, field) => {
+    const providedInfo = user.find(info => info.fieldId === field.id);
+
     switch (field.type) {
       case FIELD_TYPE.NUMBER:
       case FIELD_TYPE.TEXT:
-        values[field.name] = '';
+        values[field.name] = providedInfo ? providedInfo.value.toString() : '';
         break;
       case FIELD_TYPE.SELECT:
-        values[field.name] = null;
+        values[field.name] = providedInfo ? providedInfo.value.toString() : null;
         break;
     }
     return values;
   }, {});
+
+export const isInitialValid: (props: FormProps) => boolean = props =>
+  validationSchema(props).isValidSync(mapPropsToValues(props));
 
 export const handleSubmit = (values: FormValues) => {
   alert(values);

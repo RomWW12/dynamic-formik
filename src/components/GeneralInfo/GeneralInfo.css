@@ -16,6 +16,10 @@
   border: 1px solid red;
 }
 
+.General-info__field--valid {
+  border: 1px solid green;
+}
+
 .General-info__error-container {
   font-size: 12px;
   color: red;

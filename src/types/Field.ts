@@ -15,6 +15,7 @@ export interface Choice {
 }
 
 export default interface FormField {
+  id: number;
   name: string;
   label: string;
   required: boolean;
